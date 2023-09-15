@@ -1,2 +1,2 @@
 # metodos_numericos
-Programas en C++
+Programas en C++ y python
