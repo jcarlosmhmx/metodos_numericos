@@ -2,18 +2,22 @@
 #----------------------Funciones------------------------
 def funcion(x):
     return  1-((g**2)/(g*((Ac(x))**3))*(3+x)) 
-    #return x**3 - x**2 + 2
-
+    
 def Ac(x):
     return 3*x+((x**2)/2)
 
 def falsaPosicion(a, b, tolerancia=0.9, max_iter=100):
     if funcion(a) * funcion(b) >= 0:
         raise ValueError("La función debe cambiar de signo en el intervalo [a, b]")
+    index =0
+
+    #Agregamos el header:
+    print("Index\t a\t f(a)              \t b\t f(b)                \t c\t                    f(c)")
 
     for _ in range(max_iter):
         c = (a * funcion(b) - b * funcion(a)) / (funcion(b) - funcion(a))
-
+        print (index,"\t",a,"\t",funcion(a),"\t",b,"\t",funcion(b),"\t",c,"\t",funcion(c))
+        index = index +1
         if abs(funcion(c)) < tolerancia:
             return c
 
@@ -36,7 +40,8 @@ a=0.5
 b=2.5
 
 
-# Ejemplo de uso:
-print(funcion(0.5))
+# Ejemplo de uso:)
 raiz = falsaPosicion(a,b, tolerancia=0.99)
+print("----------------------------------------------------------------------------")
 print(f"La raíz aproximada es: {raiz}")
+print("----------------------------------------------------------------------------")
