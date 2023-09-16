@@ -13,10 +13,13 @@ def biseccion(a, b, tolerancia):
     if funcion(a) * funcion(b) >= 0:
         raise("Error: La función debe cambiar de signo en el intervalo [a,b]")
     
+    #Agregamos el header:
+    print("Index\t a\t f(a)              \t b\t f(b)                \t c\t f(c)")
+
     while(b-a):
         index=index+1
         c=(a+b)/2
-        print (index," ",a," ",funcion(a)," ",b," ",funcion(b)," ",c," ",funcion(c))
+        print (index,"\t",a,"\t",funcion(a),"\t",b,"\t",funcion(b),"\t",c,"\t",funcion(c))
 
 
         if funcion(c)==0:
@@ -26,17 +29,30 @@ def biseccion(a, b, tolerancia):
         else:
             a=c
     return (a+b)/2
+
+def raiz(a,b,tolerancia):
+    if funcion(a) * funcion(b) >= 0:
+        raise ValueError("La función debe cambiar de signo en el intervalo [a, b].")
+    
+    while (b - a) >= tolerancia:
+        c = (a + b) / 2
+        if funcion(c) == 0.0:
+            return c
+        elif funcion(c) * funcion(a) < 0:
+            b = c
+        else:
+            a = c
+
+    return (a + b) / 2
 #----------------------Variables------------------------
+#gravedad
 g=9.81
-
-x=1
-
 #intervalo inicial
 a=0.5
 #intervalo final
 b=2.5
 #tolerancia
-tolerancia = 0.00001
-
+tolerancia = 0.99
 
 biseccion(a,b,tolerancia)
+print("\n La raiz es aproximada es: ",raiz(a,b,tolerancia))
