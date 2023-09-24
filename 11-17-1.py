@@ -1,32 +1,24 @@
 #!/usr/bin/env python
-def gauss_seidel(A, b, x0=None, tol=1e-10, max_iter=1000):
-    n = len(b)
-    x = x0 or [0.0] * n
+def gauss_seidel(t, r, c, max_iter=1000, tol=1e-100):
+    for k in range(max_iter):
+        t_new = (960 - 3*r - 2*c) / 4
+        r_new = (510 - t_new - c) / 3
+        c_new = (610 - 2*t_new - r_new) / 3
 
-    for _ in range(max_iter):
-        x_new = x.copy()
-        for i in range(n):
-            s1 = sum(A[i][j] * x_new[j] for j in range(i))
-            s2 = sum(A[i][j] * x[j] for j in range(i + 1, n))
-            x_new[i] = (b[i] - s1 - s2) / A[i][i]
+        if abs(t_new - t) < tol and abs(r_new - r) < tol and abs(c_new - c) < tol:
+            return t_new, r_new, c_new
 
-        if all(abs(x_new[i] - x[i]) < tol for i in range(n)):
-            return x_new
-
-        x = x_new
+        t, r, c = t_new, r_new, c_new
+        
+        # Imprime el resultado de la iteración actual
+        print(f"Iteración {k + 1}: t = {t}, r = {r}, c = {c}")
 
     raise ValueError("El método de Gauss-Seidel no convergió")
 
-# Coeficientes de las ecuaciones
-A = [[4, 3, 2],
-     [1, 3, 1],
-     [2, 1, 3]]
-
-# Términos independientes
-b = [960, 510, 610]
+# Inicializamos las variables
+t = 100
+r = 100
+c = 100
 
 # Resuelve el sistema
-solucion = gauss_seidel(A, b)
-
-# Imprime la solución
-print(f"t = {solucion[0]}, r = {solucion[1]}, c = {solucion[2]}")
+solucion = gauss_seidel(t, r, c)
