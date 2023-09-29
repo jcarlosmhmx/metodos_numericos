@@ -1,37 +1,42 @@
 #!/usr/bin/env python
-"""
-Este módulo utiliza el método numérico Guess Seidel para reolver la ecuación descrita.
-Author: Equipo 8 Métodos Numéricos
-Date: September 24, 2023
-"""
-def gauss_seidel(A, b, x0=None, tol=1e-10, max_iter=1000):
+def gauss_seidel_iteration(A, b, t0=None, r0=None, c0=None, tol=1e-10, max_iter=1000):
     n = len(b)
-    x = x0 or [0.0] * n
-
+    t0 = t0 or 0
+    r0 = r0 or 0
+    c0 = c0 or 0
+    
+    t, r, c = t0, r0, c0
+    
     for k in range(max_iter):
-        x_new = x.copy()
-        for i in range(n):
-            s1 = sum(A[i][j] * x_new[j] for j in range(i))
-            s2 = sum(A[i][j] * x[j] for j in range(i + 1, n))
-            x_new[i] = (b[i] - s1 - s2) / A[i][i]
-
-        if all(abs(x_new[i] - x[i]) < tol for i in range(n)):
-            return x_new
-
-        x = x_new
+        t_old, r_old, c_old = t, r, c
         
-        # Imprime el resultado de la iteración actual
-        print(f"Iteración {k + 1}: t = {x[0]}, r = {x[1]}, c = {x[2]}")
+        # Actualizar t
+        t = (b[0] - A[0][1]*r - A[0][2]*c) / A[0][0]
+        
+        # Actualizar r
+        r = (b[1] - A[1][0]*t - A[1][2]*c) / A[1][1]
+        
+        # Actualizar c
+        c = (b[2] - A[2][0]*t - A[2][1]*r) / A[2][2]
+        
+        # Mostrar los resultados de la iteración actual
+        print(f"Iteración {k+1}: t = {t}, r = {r}, c = {c}")
+        
+        # Comprobar convergencia
+        if abs(t - t_old) < tol and abs(r - r_old) < tol and abs(c - c_old) < tol:
+            break
+    
+    return t, r, c
 
-    raise ValueError("El método de Gauss-Seidel no convergió")
+# Definir la matriz de coeficientes y el vector de términos independientes
+A = [[4, 3, 2], [1, 3, 1], [2, 1, 3]]
+b = [960, 510, 360]
 
-# Coeficientes de las ecuaciones
-A = [[4, 3, 2],
-     [1, 3, 1],
-     [2, 1, 3]]
+# Llamada a la función
+result_t, result_r, result_c = gauss_seidel_iteration(A, b)
 
-# Términos independientes
-b = [960, 510, 610]
-
-# Resuelve el sistema
-solucion = gauss_seidel(A, b)
+# Imprimir el resultado final
+print("\nResultado final:")
+print(f"t = {result_t}")
+print(f"r = {result_r}")
+print(f"c = {result_c}")
