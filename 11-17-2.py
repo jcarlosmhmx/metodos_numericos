@@ -2,7 +2,7 @@
 """
 Este módulo utiliza el método numérico Jacobi para reolver la ecuación descrita.
 Author: Equipo 8 Métodos Numéricos
-Date: September 24, 2023
+Fecha: Septiembre 28, 2023
 """
 def jacobi(A, b, x0=None, max_iter=1000, tol=1e-10):
     n = len(b)
