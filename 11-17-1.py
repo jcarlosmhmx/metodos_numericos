@@ -1,4 +1,9 @@
 #!/usr/bin/env python
+"""
+Este módulo utiliza el método numérico Gauss Seidel para reolver la ecuación descrita.
+Author: Equipo 8 Métodos Numéricos
+Fecha: Septiembre 28, 2023
+"""
 def gauss_seidel_iteration(A, b, t0=None, r0=None, c0=None, tol=1e-10, max_iter=1000):
     n = len(b)
     t0 = t0 or 0
