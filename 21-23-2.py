@@ -21,7 +21,7 @@ def metodo_simpson(datos):
     return (h / 3) * suma
 
 def metodo_romberg(datos):
-    n = len(datos)
+    n = len(datos)Y
     R = [[0] * n for _ in range(n)]
     R[0][0] = (datos[n-1][0] - datos[0][0]) * (datos[0][1] + datos[n-1][1]) / 2
 
