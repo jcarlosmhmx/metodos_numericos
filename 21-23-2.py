@@ -14,6 +14,10 @@ def metodo_simpson(datos):
         coef = 4 if i % 2 != 0 else 2
         suma += coef * datos[i][1]
 
+        print(f"Iteración {i}:")
+        print(f"  Coeficiente: {coef}")
+        print(f"  Valor de y({datos[i][0]}): {datos[i][1]}\n")
+
     return (h / 3) * suma
 
 def metodo_romberg(datos):
@@ -25,8 +29,13 @@ def metodo_romberg(datos):
         sumatoria = sum(datos[j][1] for j in range(1, n-1, 2))
         R[i][0] = 0.5 * R[i-1][0] + (datos[n-1][0] - datos[0][0]) * sumatoria / n
 
+        print(f"Iteración {i}:")
+        print(f"  Valor de R({i},{0}): {R[i][0]}\n")
+
         for j in range(1, i+1):
             R[i][j] = R[i][j-1] + (R[i][j-1] - R[i-1][j-1]) / (4**j - 1)
+
+            print(f"  Valor de R({i},{j}): {R[i][j]}\n")
 
     return R[n-1][n-1]
 
