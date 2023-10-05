@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """
-Este módulo utiliza el método numérico Jacobi para reolver la ecuación descrita.
+Este módulo Plantea el sistema de ecuaciones para el caso planteado y resuélvelo aplicando la regla de trapecio 
+encuentra la solución programando cada método. (Ver página 647, ejercicio 21.23) 
 Author: Equipo 8 Métodos Numéricos
 Fecha: Octubre 8, 2023
 """
