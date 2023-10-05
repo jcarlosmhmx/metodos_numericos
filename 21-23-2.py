@@ -5,46 +5,44 @@ encuentra la solución programando cada método. (Ver página 647, ejercicio 21.
 Author: Equipo 8 Métodos Numéricos
 Fecha: Octubre 8, 2023
 """
-def f(x):
-    return x  # Función de interpolación
+def metodo_simpson(datos):
+    h = datos[1][0] - datos[0][0]
+    n = len(datos)
+    suma = datos[0][1] + datos[n-1][1]
 
-def metodo_simpson(a, b, n):
-    h = (b - a) / n
-    suma = f(a) + f(b)
-
-    for i in range(1, n, 2):
-        suma += 4 * f(a + i * h)
-
-    for i in range(2, n-1, 2):
-        suma += 2 * f(a + i * h)
+    for i in range(1, n-1):
+        coef = 4 if i % 2 != 0 else 2
+        suma += coef * datos[i][1]
 
     return (h / 3) * suma
 
-def metodo_romberg(a, b, n):
-    R = [[0] * (n+1) for _ in range(n+1)]
-    h = b - a
-    R[0][0] = 0.5 * h * (f(a) + f(b))
+def metodo_romberg(datos):
+    n = len(datos)
+    R = [[0] * n for _ in range(n)]
+    R[0][0] = (datos[n-1][0] - datos[0][0]) * (datos[0][1] + datos[n-1][1]) / 2
 
-    for i in range(1, n+1):
-        h /= 2
-        suma = 0
-        for k in range(1, 2**i, 2):
-            suma += f(a + k * h)
-        R[i][0] = 0.5 * R[i-1][0] + suma * h
+    for i in range(1, n):
+        sumatoria = sum(datos[j][1] for j in range(1, n-1, 2))
+        R[i][0] = 0.5 * R[i-1][0] + (datos[n-1][0] - datos[0][0]) * sumatoria / n
 
         for j in range(1, i+1):
-            R[i][j] = R[i][j-1] + (R[i][j-1] - R[i-1][j-1]) / ((4**j) - 1)
+            R[i][j] = R[i][j-1] + (R[i][j-1] - R[i-1][j-1]) / (4**j - 1)
 
-    return R[n][n]
+    return R[n-1][n-1]
 
-# Datos proporcionados
-a = 0  # Límite inferior del intervalo (en minutos desde las 7:30)
-b = 135  # Límite superior del intervalo (en minutos desde las 7:30)
-n = 4  # Número de subdivisiones
+# Datos proporcionados (tiempo en minutos desde las 7:30)
+datos = [
+    (0, 18),
+    (15, 24),
+    (30, 14),
+    (45, 24),
+    (75, 21),
+    (135, 9)
+]
 
-# Aplicar el método de Simpson y el método de Romberg
-area_simpson = metodo_simpson(a, b, n)
-area_romberg = metodo_romberg(a, b, n)
+# Aplicar los métodos de Simpson y Romberg
+area_simpson = metodo_simpson(datos)
+area_romberg = metodo_romberg(datos)
 
-print(f"El área aproximada usando el método de Simpson es: {area_simpson} autos*minutos")
-print(f"El área aproximada usando el método de Romberg es: {area_romberg} autos*minutos")
+print(f"El número aproximado de autos que pasaron entre las 7:30 y las 9:15 usando el método de Simpson es: {area_simpson} autos")
+print(f"El número aproximado de autos que pasaron entre las 7:30 y las 9:15 usando el método de Romberg es: {area_romberg} autos")
